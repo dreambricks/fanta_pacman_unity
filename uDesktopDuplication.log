@@ -1,0 +1,16 @@
+[uDD::Log][2024-03-13 17:46:43] Start
+[uDD::Log][2024-03-13 17:46:43] OS Version    : 10.0
+[uDD::Log][2024-03-13 17:46:43] Build Number  : 22621
+[uDD::Log][2024-03-13 17:46:43] Service Pack  : 
+[uDD::Log][2024-03-13 17:46:43] Graphics Card [0] : NVIDIA GeForce RTX 3050 Laptop GPU
+[uDD::Log][2024-03-13 17:46:43]   > Monitor[0] : \\.\DISPLAY5
+[uDD::Log][2024-03-13 17:46:43] Graphics Card [1] : Intel(R) Iris(R) Xe Graphics
+[uDD::Log][2024-03-13 17:46:43] Graphics Card [2] : Intel(R) Iris(R) Xe Graphics
+[uDD::Log][2024-03-13 17:46:43] Graphics Card [3] : Microsoft Basic Render Driver
+[uDD::Log][2024-03-13 17:46:43] Monitor::Initialized() =>
+[uDD::Log][2024-03-13 17:46:43]     ID    : 0
+[uDD::Log][2024-03-13 17:46:43]     Size  : (1920, 1080)
+[uDD::Log][2024-03-13 17:46:43]     DPI   : (79, 76)
+[uDD::Log][2024-03-13 17:46:43]     Rot   : Landscape
+[uDD::Log][2024-03-13 17:46:43] Duplicator::Initialize() => OK.
+[uDD::Log][2024-03-13 17:46:57] Stop
