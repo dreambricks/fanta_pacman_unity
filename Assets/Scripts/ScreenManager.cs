@@ -10,7 +10,7 @@ public class ScreenManager : MonoBehaviour
 {
     public Texture ctaScreen;
     public Texture thankYouScreen;
-    //[SerializeField] private ArduinoCommunication arduinoCommunication;
+    [SerializeField] private ArduinoCommunication arduinoCommunication;
 
     [DllImport("user32.dll")]
     private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
@@ -37,6 +37,7 @@ public class ScreenManager : MonoBehaviour
 
     void Start()
     {
+        UnityEngine.Debug.Log("Start!");
         elapsedTime = playTime;
         imagePanel = GetComponent<RawImage>();
         ShowCTAScreen();
@@ -46,7 +47,7 @@ public class ScreenManager : MonoBehaviour
     {
         if (isCTAActive)
         {
-            UnityEngine.Debug.Log("Start!");
+            UnityEngine.Debug.Log("Pac-Man game!");
             DataLog dataLog = new();
             dataLog.status = StatusEnum.Jogou.ToString();
             LogUtil.SendLogCSV(dataLog);
@@ -74,7 +75,7 @@ public class ScreenManager : MonoBehaviour
 
     IEnumerator ShowScreens()
     {
-        //arduinoCommunication.SendMessage("1");
+        arduinoCommunication.SendMessageToArduino("2\n");
 
         // Chama a função para trazer a janela do Pac-Man para frente
         BringPacManWindowToFront();
@@ -100,7 +101,7 @@ public class ScreenManager : MonoBehaviour
 
     IEnumerator BringUnityWindowToFrontCoroutine()
     {
-        //arduinoCommunication.SendMessage("0");
+        arduinoCommunication.SendMessageToArduino("1\n");
 
         // Chama a função para trazer a janela Unity para frente
         BringUnityWindowToFront();
@@ -108,6 +109,7 @@ public class ScreenManager : MonoBehaviour
         // Espera por delayTime segundos
         yield return new WaitForSeconds(delayTime);
         BringWindowToBack();
+        arduinoCommunication.SendMessageToArduino("0\n");
 
         SceneManager.LoadScene("SampleScene");
     }
