@@ -227,8 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7b196eaa5088341aaac0bcc5abb160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: COM13
-  baudrate: 115200
+  port: COM11
+  baudrate: 9600
   startReceiving: 1
   printToConsole: 0
   data: 
@@ -580,6 +580,73 @@ Transform:
   m_Father: {fileID: 1501485739}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1074259146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074259147}
+  - component: {fileID: 1074259148}
+  m_Layer: 0
+  m_Name: VideoPlayerEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1074259147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074259146}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -34.02025, y: -8.764268, z: -221.16982}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1501485739}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!328 &1074259148
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074259146}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: 0e9321ba258609f40a1d3278f783b839, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 2aaf2872c188e8647bc1e721f0222be9, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 0
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 0
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &1273463329
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +848,7 @@ Transform:
   - {fileID: 1456917350}
   - {fileID: 1273463332}
   - {fileID: 1751225162}
+  - {fileID: 1074259147}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -821,7 +889,7 @@ VideoPlayer:
   m_AspectRatio: 2
   m_DataSource: 0
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
+  m_AudioOutputMode: 0
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
@@ -912,10 +980,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ctaScreen: {fileID: 8400000, guid: 55afc6be6293a5241ba3a776f56c4621, type: 2}
-  thankYouScreen: {fileID: 2800000, guid: 423549df760aa3140a8c8815e7176c35, type: 3}
+  thankYouScreen: {fileID: 8400000, guid: 2aaf2872c188e8647bc1e721f0222be9, type: 2}
+  workingHoursScreen: {fileID: 0}
   arduinoCommunication: {fileID: 264643654}
-  playTime: 60
+  playTime: 120
   delayTime: 30
+  tareTime: 3
   elapsedTime: 0
   isActive: 0
 --- !u!61 &2016053336

@@ -5,11 +5,13 @@ using System.Runtime.InteropServices;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-public class ScreenManager : MonoBehaviour
+public class ScreenManager : MonoBehaviour, IPointerDownHandler
 {
     public Texture ctaScreen;
     public Texture thankYouScreen;
+    public Texture workingHoursScreen;
     [SerializeField] private ArduinoCommunication arduinoCommunication;
 
     [DllImport("user32.dll")]
@@ -28,6 +30,7 @@ public class ScreenManager : MonoBehaviour
 
     public float playTime = 5;
     public float delayTime = 5;
+    public float tareTime = 3;
     public float elapsedTime;
     public bool isActive = false;
 
@@ -43,7 +46,7 @@ public class ScreenManager : MonoBehaviour
         ShowCTAScreen();
     }
 
-    private void OnMouseDown()
+    private void MyOnMouseDown()
     {
         if (isCTAActive)
         {
@@ -53,6 +56,11 @@ public class ScreenManager : MonoBehaviour
             LogUtil.SendLogCSV(dataLog);
             StartCoroutine(ShowScreens());
         }
+    }
+    public void OnPointerDown(PointerEventData p)
+    {
+        UnityEngine.Debug.Log("OnPointerDown");
+        MyOnMouseDown();
     }
 
     private void Update()
@@ -75,14 +83,19 @@ public class ScreenManager : MonoBehaviour
 
     IEnumerator ShowScreens()
     {
-        arduinoCommunication.SendMessageToArduino("2\n");
+        arduinoCommunication.SendMessageToArduino("2\n"); // message to start animation at the LED screen
 
         // Chama a função para trazer a janela do Pac-Man para frente
         BringPacManWindowToFront();
 
         // Espera por delayTime segundos
         StartChronometer();
-        yield return new WaitForSeconds(playTime);
+        yield return new WaitForSeconds(playTime-tareTime);
+
+        arduinoCommunication.SendMessageToArduino("4\n"); // message to set the tare
+
+        yield return new WaitForSeconds(tareTime);
+
 
         ShowThankYouScreen();
 
@@ -101,15 +114,26 @@ public class ScreenManager : MonoBehaviour
 
     IEnumerator BringUnityWindowToFrontCoroutine()
     {
-        arduinoCommunication.SendMessageToArduino("1\n");
+        arduinoCommunication.SendMessageToArduino("1\n"); // message to dispense product
 
         // Chama a função para trazer a janela Unity para frente
         BringUnityWindowToFront();
 
-        // Espera por delayTime segundos
-        yield return new WaitForSeconds(delayTime);
+        // espera por delayTime segundos e verifica se recebeu uma
+        // msg do arduino informando que o produto caiu.
+        for (int t = 0; t < delayTime*2; t++)
+        {
+            yield return new WaitForSeconds(0.5F);
+            var msgFromArduino = arduinoCommunication.GetLastestData();
+            if (msgFromArduino == "dropped")
+            {
+                //yield return new WaitForSeconds(3.0F);
+                break;
+            }
+            
+        }
         BringWindowToBack();
-        arduinoCommunication.SendMessageToArduino("0\n");
+        arduinoCommunication.SendMessageToArduino("3\n"); // message to stop the animation at the LED screen
 
         SceneManager.LoadScene("SampleScene");
     }
@@ -146,9 +170,6 @@ public class ScreenManager : MonoBehaviour
         elapsedTime = playTime;
         isActive = true;
     }
-
-
-
 
     public void BringWindowToBack()
     {
