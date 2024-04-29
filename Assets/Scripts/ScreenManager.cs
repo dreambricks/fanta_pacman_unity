@@ -11,7 +11,7 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
 {
     public Texture ctaScreen;
     public Texture thankYouScreen;
-    public Texture workingHoursScreen;
+    public GameObject workingHoursScreen;
     [SerializeField] private ArduinoCommunication arduinoCommunication;
 
     [DllImport("user32.dll")]
@@ -31,6 +31,8 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
     public float playTime = 5;
     public float delayTime = 5;
     public float tareTime = 3;
+    public float dropDelay = 5;
+    public float checkWorkingDelay = 5;
     public float elapsedTime;
     public bool isActive = false;
 
@@ -44,6 +46,7 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
         elapsedTime = playTime;
         imagePanel = GetComponent<RawImage>();
         ShowCTAScreen();
+        StartCoroutine(CheckWorkingScreen());
     }
 
     private void MyOnMouseDown()
@@ -96,7 +99,6 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
 
         yield return new WaitForSeconds(tareTime);
 
-
         ShowThankYouScreen();
 
         // Chama a função para trazer a janela Unity para frente
@@ -127,11 +129,12 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
             var msgFromArduino = arduinoCommunication.GetLastestData();
             if (msgFromArduino == "dropped")
             {
-                //yield return new WaitForSeconds(3.0F);
+                yield return new WaitForSeconds(dropDelay);
                 break;
             }
             
         }
+        
         BringWindowToBack();
         arduinoCommunication.SendMessageToArduino("3\n"); // message to stop the animation at the LED screen
 
@@ -148,6 +151,15 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
         {
             SetForegroundWindow(pacManWindowHandle);
         }
+    }
+
+
+    public void BringWindowToBack()
+    {
+        IntPtr unityWindowHandle = Process.GetCurrentProcess().MainWindowHandle;
+        UnityEngine.Debug.Log(unityWindowHandle);
+
+        SetWindowPos(unityWindowHandle, (IntPtr)HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     }
 
     void Chronometer()
@@ -171,11 +183,26 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
         isActive = true;
     }
 
-    public void BringWindowToBack()
-    {
-        IntPtr unityWindowHandle = Process.GetCurrentProcess().MainWindowHandle;
-        UnityEngine.Debug.Log(unityWindowHandle);
 
-        SetWindowPos(unityWindowHandle, (IntPtr)HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    IEnumerator CheckWorkingScreen()
+    {
+        TimeSpan start = TimeSpan.Parse("20:01"); 
+        TimeSpan end = TimeSpan.Parse("09:59");   
+        TimeSpan now = DateTime.Now.TimeOfDay;
+
+        while (true)
+        {
+            if ((now > start) && (now < end))
+            {
+                workingHoursScreen.gameObject.SetActive(true);
+            }
+            else
+            {
+                workingHoursScreen.gameObject.SetActive(false);
+            }
+            yield return new WaitForSeconds(checkWorkingDelay);
+            UnityEngine.Debug.Log("CheckWorking");
+        }
+
     }
 }

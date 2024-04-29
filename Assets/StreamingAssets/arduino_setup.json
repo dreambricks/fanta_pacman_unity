@@ -1,1 +1,4 @@
-null
+{
+    "SerialPort": "COM8",
+    "baudrate" : 9600
+}
