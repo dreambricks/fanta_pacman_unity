@@ -1132,6 +1132,7 @@ MonoBehaviour:
   checkWorkingDelay: 30
   elapsedTime: 0
   isActive: 0
+  isOutWorking: 0
 --- !u!61 &2016053336
 BoxCollider2D:
   m_ObjectHideFlags: 0

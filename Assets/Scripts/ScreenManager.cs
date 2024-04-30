@@ -35,6 +35,7 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
     public float checkWorkingDelay = 5;
     public float elapsedTime;
     public bool isActive = false;
+    public bool canPlay = false;
 
     private bool isCTAActive;
 
@@ -69,6 +70,7 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
     private void Update()
     {
         Chronometer();
+        ForcePlay();
     }
 
 
@@ -93,7 +95,7 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
 
         // Espera por delayTime segundos
         StartChronometer();
-        yield return new WaitForSeconds(playTime-tareTime);
+        yield return new WaitForSeconds(playTime - tareTime);
 
         arduinoCommunication.SendMessageToArduino("4\n"); // message to set the tare
 
@@ -123,7 +125,7 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
 
         // espera por delayTime segundos e verifica se recebeu uma
         // msg do arduino informando que o produto caiu.
-        for (int t = 0; t < delayTime*2; t++)
+        for (int t = 0; t < delayTime * 2; t++)
         {
             yield return new WaitForSeconds(0.5F);
             var msgFromArduino = arduinoCommunication.GetLastestData();
@@ -132,9 +134,9 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
                 yield return new WaitForSeconds(dropDelay);
                 break;
             }
-            
+
         }
-        
+
         BringWindowToBack();
         arduinoCommunication.SendMessageToArduino("3\n"); // message to stop the animation at the LED screen
 
@@ -194,17 +196,31 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
         while (true)
         {
             UnityEngine.Debug.Log(now);
-            if ((now > start) && (now < end))
-            {
-                workingHoursScreen.gameObject.SetActive(false);
-            }
-            else
-            {
-                workingHoursScreen.gameObject.SetActive(true);
+                if ((now > start) && (now < end))
+                {
+                    workingHoursScreen.gameObject.SetActive(false);
+                }
+                else
+                {
+                if (canPlay == false)
+                {
+                    workingHoursScreen.gameObject.SetActive(true);
+                }
             }
             yield return new WaitForSeconds(checkWorkingDelay);
             UnityEngine.Debug.Log("CheckWorking");
         }
 
+    }
+
+    
+    void ForcePlay()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            canPlay = !canPlay;
+            workingHoursScreen.gameObject.SetActive(!canPlay);
+            UnityEngine.Debug.Log("canPlay: " + canPlay);
+        }
     }
 }
