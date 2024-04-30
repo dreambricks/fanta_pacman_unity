@@ -116,6 +116,7 @@ public class ArduinoCommunication : MonoBehaviour
     {
         if (serialPort != null && serialPort.IsOpen)
         {
+            startReceiving = false;
             serialPort.Close();
         }
     }
@@ -124,6 +125,7 @@ public class ArduinoCommunication : MonoBehaviour
     {
         if (serialPort != null && serialPort.IsOpen)
         {
+            startReceiving = false;
             serialPort.Close();
         }
     }
@@ -132,6 +134,7 @@ public class ArduinoCommunication : MonoBehaviour
     {
         if (serialPort != null && serialPort.IsOpen)
         {
+            startReceiving = false;
             serialPort.Close();
         }
     }
