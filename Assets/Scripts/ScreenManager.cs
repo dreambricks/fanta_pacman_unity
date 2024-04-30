@@ -138,7 +138,8 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
         BringWindowToBack();
         arduinoCommunication.SendMessageToArduino("3\n"); // message to stop the animation at the LED screen
 
-        SceneManager.LoadScene("SampleScene");
+        elapsedTime = playTime;
+        ShowCTAScreen();
     }
 
     public void BringPacManWindowToFront()
