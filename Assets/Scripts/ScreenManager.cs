@@ -187,19 +187,20 @@ public class ScreenManager : MonoBehaviour, IPointerDownHandler
 
     IEnumerator CheckWorkingScreen()
     {
-        TimeSpan start = TimeSpan.Parse("20:01"); 
-        TimeSpan end = TimeSpan.Parse("09:59");   
+        TimeSpan start = TimeSpan.Parse("10:00");
+        TimeSpan end = TimeSpan.Parse("20:00");
         TimeSpan now = DateTime.Now.TimeOfDay;
 
         while (true)
         {
+            UnityEngine.Debug.Log(now);
             if ((now > start) && (now < end))
             {
-                workingHoursScreen.gameObject.SetActive(true);
+                workingHoursScreen.gameObject.SetActive(false);
             }
             else
             {
-                workingHoursScreen.gameObject.SetActive(false);
+                workingHoursScreen.gameObject.SetActive(true);
             }
             yield return new WaitForSeconds(checkWorkingDelay);
             UnityEngine.Debug.Log("CheckWorking");
